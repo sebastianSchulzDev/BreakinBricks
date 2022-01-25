@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
@@ -8,7 +9,9 @@ pygame.display.set_caption("Breakin' Bricks")
 bat = pygame.image.load('./Images/paddle.png')
 bat = bat.convert_alpha()
 bat_rect = bat.get_rect()
-
+bat_rect[1] = screen.get_height() * 100
+bat_position_y = screen.get_height() - 31
+bat_position_x = (screen.get_width() // 2) - 64
 # ball
 ball = pygame.image.load('./Images/football.png')
 ball = ball.convert_alpha()
@@ -41,9 +44,16 @@ while not game_over:
     for b in bricks:
         screen.blit(brick, b)
 
+    screen.blit(bat, (bat_position_x, bat_position_y))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_over = True
 
+    pressed = pygame.key.get_pressed()
+    if pressed[K_RIGHT]:
+        bat_position_x += 0.5 * dt
+    if pressed[K_LEFT]:
+        bat_position_x -= 0.5 * dt
     pygame.display.update()
 pygame.quit()
