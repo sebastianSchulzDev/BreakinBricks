@@ -65,6 +65,14 @@ while not game_over:
     if pressed[K_SPACE]:
         ball_served = True
 
+    if bat_rect[0] + bat_rect.width >= ball_rect[0] >= bat_rect[0] \
+            and ball_rect[1] + bat_rect.height >= bat_rect[1] and sy > 0:
+        sy *= -1
+        sx *= 1.01 # speed increase
+        sy *= 1.01 # speed increase
+        continue
+
+
     # top
     if ball_rect[1] <= 0:
         ball_rect[1] = 0
@@ -72,8 +80,9 @@ while not game_over:
 
     # bottom
     if ball_rect[1] >= screen.get_height() - ball_rect.height:
-        ball_rect[1] = screen.get_height() - ball_rect.height
-        sy *= -1
+        # ball_rect[1] = screen.get_height() - ball_rect.height
+        ball_rect[0], ball_rect[1] = ball_start[0], ball_start[1]
+        ball_served = False
 
     # left
     if ball_rect[0] <= 0:
